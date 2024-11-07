@@ -23,9 +23,9 @@ class JeuMario :
         en_cours = True
         clock = pygame.time.Clock()
 
-        mario = Mario(250,200)
+        mario = Mario(250,100)
 
-        plateforme = Plateforme(200,400,300,30)
+        liste_plateformes = (Plateforme(200,400,300,30) , Plateforme(300,500,300,30))
 
         touche_droite_presse = False
         touche_gauche_presse = False
@@ -54,15 +54,24 @@ class JeuMario :
                 
 
             if touche_droite_presse :
-                plateforme.x -= 5
+                for plateforme in liste_plateformes :
+                    plateforme.x -= 5
+
+            if touche_gauche_presse :
+                for plateforme in liste_plateformes :
+                    plateforme.x += 5
+
+            if touche_haut_presse and mario.touche_plateforme(liste_plateformes):
+                mario.vitesse_y = -5
 
             # Remplir l'écran et dessiner la balle
             screen.fill(white)
 
-            mario.deplacement(plateforme)
+            mario.deplacement(liste_plateformes)
             mario.dessiner(screen)
 
-            plateforme.dessiner(screen)
+            for plateforme in liste_plateformes :
+                plateforme.dessiner(screen)
             
             # Rafraîchir l'affichage
             pygame.display.flip()

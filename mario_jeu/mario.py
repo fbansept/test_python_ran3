@@ -17,9 +17,25 @@ class Mario :
              self.largeur, 
              self.hauteur))
         
-    def deplacement(self, plateforme) :
+    def deplacement(self, liste_plateformes) :
+  
         self.y += self.vitesse_y
 
-        if self.y >= plateforme.y - self.hauteur and self.x >= plateforme.x and self.x <= plateforme.x + plateforme.largeur :
+        if self.touche_plateforme(liste_plateformes) :
             self.vitesse_y = 0
+        else :
+            self.vitesse_y += 0.2
+
+        if self.vitesse_y > 5 :
+            self.vitesse_y = 5
+
+
+
+    def touche_plateforme(self, liste_plateformes) :
+
+        for plateforme in liste_plateformes :
+            if self.y >= plateforme.y - self.hauteur and self.x + self.largeur >= plateforme.x and self.x <= plateforme.x + plateforme.largeur :
+                return True
+            
+        return False
         
