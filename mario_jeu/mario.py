@@ -34,7 +34,12 @@ class Mario :
     def touche_plateforme(self, liste_plateformes) :
 
         for plateforme in liste_plateformes :
-            if self.y >= plateforme.y - self.hauteur and self.x + self.largeur >= plateforme.x and self.x <= plateforme.x + plateforme.largeur and self.y + self.hauteur < plateforme.y + plateforme.hauteur:
+            if self.y >= plateforme.y - self.hauteur and self.x + self.largeur >= plateforme.x and self.x <= plateforme.x + plateforme.largeur and (self.y + self.hauteur < plateforme.y + plateforme.hauteur or self.y < plateforme.y + plateforme.hauteur):
+
+                #Si il touche la plateforme avec la tete
+                if self.y < plateforme.y + plateforme.hauteur and self.y > plateforme.y :
+                   self.y = plateforme.y + plateforme.hauteur + 1
+
                 return True
             
         return False
