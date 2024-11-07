@@ -27,10 +27,34 @@ class JeuMario :
 
         plateforme = Plateforme(200,400,300,30)
 
+        touche_droite_presse = False
+        touche_gauche_presse = False
+        touche_haut_presse = False
+
         while en_cours:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     en_cours = False
+
+                if event.type == pygame.KEYDOWN :
+                    if event.key == pygame.K_RIGHT:
+                        touche_droite_presse = True
+                    if event.key == pygame.K_LEFT:
+                        touche_gauche_presse = True
+                    if event.key == pygame.K_UP:
+                        touche_haut_presse = True
+
+                if event.type == pygame.KEYUP :
+                    if event.key == pygame.K_RIGHT:
+                        touche_droite_presse = False
+                    if event.key == pygame.K_LEFT:
+                        touche_gauche_presse = False
+                    if event.key == pygame.K_UP:
+                        touche_haut_presse = False
+                
+
+            if touche_droite_presse :
+                plateforme.x -= 5
 
             # Remplir l'écran et dessiner la balle
             screen.fill(white)
