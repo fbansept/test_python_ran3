@@ -1,3 +1,4 @@
+import math
 import pygame
 
 class Mario :
@@ -21,7 +22,17 @@ class Mario :
   
         self.y += self.vitesse_y
 
-        if self.touche_plateforme(liste_plateformes) :
+        liste_collision = self.touche_plateforme(liste_plateformes)
+        collision_verticale = False
+
+        for plateforme_collision, direction_collision in liste_collision :
+            if direction_collision == "HAUT" or direction_collision == "BAS" :
+                collision_verticale = True
+
+            if direction_collision == "HAUT" :
+                self.y = plateforme_collision.y + plateforme_collision.hauteur
+
+        if collision_verticale :
             self.vitesse_y = 0
         else :
             self.vitesse_y += 0.2
@@ -33,14 +44,31 @@ class Mario :
 
     def touche_plateforme(self, liste_plateformes) :
 
+        liste_plateforme_touche = []
+
         for plateforme in liste_plateformes :
+
+            # on test si il y a une collision entre mario et la plateforme
             if self.y >= plateforme.y - self.hauteur and self.x + self.largeur >= plateforme.x and self.x <= plateforme.x + plateforme.largeur and (self.y + self.hauteur < plateforme.y + plateforme.hauteur or self.y < plateforme.y + plateforme.hauteur):
 
-                #Si il touche la plateforme avec la tete
-                if self.y < plateforme.y + plateforme.hauteur and self.y > plateforme.y :
-                   self.y = plateforme.y + plateforme.hauteur + 1
+                # on test de quel côté mario a tapé la plateforme 
+                # (la distance la plus courte entre les coté opposé des 2 rectangle)
+                distance_droite = abs(self.x + self.largeur - plateforme.x)
+                distance_gauche = abs(self.x - (plateforme.x + plateforme.largeur))
+                distance_haut = abs(self.y - (plateforme.y + plateforme.hauteur))
+                distance_bas = abs(self.y + self.hauteur - plateforme.y)
 
-                return True
+                minimum = min(distance_droite,distance_gauche,distance_haut,distance_bas)
+
+                # on retourne un tuple avec la plateforme en collision et le coté touché de mario
+                if distance_droite == minimum :
+                    liste_plateforme_touche.append((plateforme, "DROITE"))
+                elif distance_gauche == minimum :
+                    liste_plateforme_touche.append((plateforme, "GAUCHE"))
+                elif distance_haut == minimum :
+                    liste_plateforme_touche.append((plateforme, "HAUT"))
+                else :
+                    liste_plateforme_touche.append((plateforme, "BAS"))
             
-        return False
+        return liste_plateforme_touche
         

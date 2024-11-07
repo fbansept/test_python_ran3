@@ -25,7 +25,7 @@ class JeuMario :
 
         mario = Mario(250,100)
 
-        liste_plateformes = (Plateforme(200,400,300,30) , Plateforme(300,500,300,30))
+        liste_plateformes = (Plateforme(200,400,400,30) , Plateforme(300,350,100,30))
 
         touche_droite_presse = False
         touche_gauche_presse = False
@@ -53,16 +53,34 @@ class JeuMario :
                         touche_haut_presse = False
                 
 
+            liste_collision = mario.touche_plateforme(liste_plateformes)
+
+            collision_droite = False
+            collision_gauche = False
+            collision_bas = False
+
+            for plateforme_collision, direction_collision in liste_collision :
+                if direction_collision == "DROITE" :
+                    collision_droite = True
+                elif direction_collision == "GAUCHE" :
+                    collision_gauche = True
+                elif direction_collision == "BAS" :
+                    collision_bas = True
+
+
             if touche_droite_presse :
-                for plateforme in liste_plateformes :
-                    plateforme.x -= 5
+                if not collision_droite :
+                    for plateforme in liste_plateformes :
+                        plateforme.x -= 5
 
             if touche_gauche_presse :
-                for plateforme in liste_plateformes :
-                    plateforme.x += 5
+                if not collision_gauche :
+                    for plateforme in liste_plateformes :
+                        plateforme.x += 5
 
-            if touche_haut_presse and mario.touche_plateforme(liste_plateformes):
-                mario.vitesse_y = -5
+            if touche_haut_presse :
+                if collision_bas:
+                    mario.vitesse_y = -7
 
             # Remplir l'écran et dessiner la balle
             screen.fill(white)
