@@ -17,9 +17,9 @@ class Mario :
              self.largeur, 
              self.hauteur))
         
-    def deplacement(self, programme) :
+    def deplacement(self, plateforme) :
         self.y += self.vitesse_y
 
-        if self.y >= programme.screen_height - self.hauteur :
+        if self.y >= plateforme.y - self.hauteur and self.x >= plateforme.x and self.x <= plateforme.x + plateforme.largeur :
             self.vitesse_y = 0
         

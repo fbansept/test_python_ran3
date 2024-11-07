@@ -2,6 +2,7 @@ import pygame
 import sys
 
 from mario import Mario
+from plateforme import Plateforme
 
 class JeuMario :
 
@@ -22,7 +23,9 @@ class JeuMario :
         en_cours = True
         clock = pygame.time.Clock()
 
-        mario = Mario(50,200)
+        mario = Mario(250,200)
+
+        plateforme = Plateforme(200,400,300,30)
 
         while en_cours:
             for event in pygame.event.get():
@@ -32,8 +35,10 @@ class JeuMario :
             # Remplir l'écran et dessiner la balle
             screen.fill(white)
 
-            mario.deplacement(self)
+            mario.deplacement(plateforme)
             mario.dessiner(screen)
+
+            plateforme.dessiner(screen)
             
             # Rafraîchir l'affichage
             pygame.display.flip()
